@@ -1,0 +1,24 @@
+{
+  "name": "Pricing Calculate System",
+  "short_name": "Pricing System",
+  "description": "Calculate GP and NP prices across factory, Freelan, agency and shop stages.",
+  "start_url": "./freelan_pricing_calculator.html",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#0c6035",
+  "background_color": "#f4f8f5",
+  "icons": [
+    {
+      "src": "./icons/pricing-calculator-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/pricing-calculator-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
-# Freelan Pricing Calculator
+# Pricing Calculate System
 
-A responsive, mobile-friendly pricing calculator built with HTML, CSS, and JavaScript.
+A responsive, mobile-friendly pricing calculator and installable Progressive Web App (PWA) built with HTML, CSS, and JavaScript.
 
 ## Overview
 
@@ -16,6 +16,7 @@ The Freelan Pricing Calculator helps calculate and manage GP (Gross Price) and N
 - **Percentage-Based Pricing** – Apply separate percentages to GP and NP prices.
 - **Responsive Design** – Green-and-white interface designed for desktop and mobile screens.
 - **Print / Save as PDF** – Print the pricing calculations or save them as a PDF.
+- **Installable PWA** – Install the calculator on supported Android, Windows and desktop browsers.
 
 ## Technologies Used
 
@@ -26,11 +27,12 @@ The Freelan Pricing Calculator helps calculate and manage GP (Gross Price) and N
 ## How to Run
 
 1. Clone or download this repository.
-2. Open `freelan_pricing_calculator.html` in a web browser.
-3. Enter item prices and percentages in the Nadugala Factory section.
-4. Review the calculated GP and NP prices in each subsequent stage.
+2. Serve the project through `http://localhost` (for example with VS Code Live Server or `npx serve .`). Opening the HTML directly with `file://` does not enable service workers or PWA installation.
+3. Open `freelan_pricing_calculator.html`.
+4. Enter item prices and percentages in the Nadugala Factory section.
+5. Review the calculated GP and NP prices in each subsequent stage.
 
-No installation or database connection is required.
+The calculator performs calculations locally in the browser. The service worker only caches the static app shell; it does not cache user data, API responses, login sessions or database data. Offline use is limited to loading the cached app shell, and entered values are not persisted.
 
 ## Calculation Formula
 
@@ -43,12 +45,36 @@ Each stage uses the previous stage's final GP and NP prices as its input.
 ```text
 freelan-pricing-calculator/
 ├── freelan_pricing_calculator.html
-└── README.md
+├── freelan_pricing_calculator.css
+├── freelan_pricing_calculator.js
+├── manifest.webmanifest
+├── service-worker.js
+├── pricing_calculator_logo.svg
+└── icons/
+    ├── pricing-calculator-192.png
+    └── pricing-calculator-512.png
+    
 ```
 
 ## Notes
 
 This project performs calculations locally in the browser. It does not currently store data in a database or provide multi-user access.
+
+## GitHub Pages deployment
+
+The repository is configured as a static project site. Publish the `main` branch from the repository's **Settings → Pages** section. The project-site URL will normally use the repository base path:
+
+```text
+https://evminitharushika.github.io/Pricing-Calculate-System/
+```
+
+The manifest, service worker and asset paths are relative so they work under that base path. PWA installation requires HTTPS or localhost; a GitHub repository URL by itself is not a live website.
+
+## Installing the app
+
+On Android Chrome or another supported browser, open the deployed HTTPS site and use **Install App** when the browser makes installation available. If the button says **How to install**, use the browser menu and choose **Install app** or **Add to Home screen**.
+
+On Windows Chrome or Edge, open the deployed site and choose **Install** from the address bar or browser menu. The app opens in a standalone window after installation where supported.
 
 ## License
 

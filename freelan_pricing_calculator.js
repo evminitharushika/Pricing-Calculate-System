@@ -3,6 +3,7 @@ const fmt = n => 'Rs. ' + (Number.isFinite(n) ? n : 0).toLocaleString('en-LK',{m
 const num = id => Math.max(0, parseFloat($(id).value) || 0);
 const addPercent = (base, pct) => base * (1 + pct / 100);
 let rowCounter = 0;
+let deferredInstallPrompt = null;
 function addRow(name='', price='', pct='0'){
   rowCounter++;
   const tr = document.createElement('tr');
@@ -60,3 +61,51 @@ $('resetAll').addEventListener('click',()=>{
   document.querySelector('.tab[data-tab="factory"]').click();
 });
 addRow(); addRow(); addRow(); updateAll();
+
+const installButton = $('installApp');
+const installStatus = $('installStatus');
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+function showInstallInstructions(){
+  installButton.hidden = false;
+  installButton.textContent = 'How to install';
+  installStatus.textContent = 'Use your browser menu and choose “Add to Home screen” or “Install app”.';
+}
+
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  installButton.hidden = false;
+  installButton.textContent = 'Install App';
+  installStatus.textContent = '';
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  installButton.hidden = true;
+  installStatus.textContent = 'App installed successfully.';
+});
+
+installButton.addEventListener('click', async () => {
+  if (!deferredInstallPrompt) {
+    showInstallInstructions();
+    return;
+  }
+
+  deferredInstallPrompt.prompt();
+  const result = await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+
+  if (result.outcome === 'accepted') {
+    installButton.hidden = true;
+    installStatus.textContent = 'Installing Pricing Calculate System...';
+  } else {
+    installStatus.textContent = 'Installation cancelled. You can install it later.';
+  }
+});
+
+if (!isStandalone) {
+  window.setTimeout(() => {
+    if (!deferredInstallPrompt) showInstallInstructions();
+  }, 1500);
+}
