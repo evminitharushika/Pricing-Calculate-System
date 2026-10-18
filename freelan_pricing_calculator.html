@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freelan Pricing Calculator</title>
+<style>
+:root{--green:#16834a;--green-dark:#0c6035;--mint:#eaf7ef;--line:#dce8df;--ink:#183326;--muted:#65766b;--white:#fff;--bg:#f4f8f5;--orange:#f59e0b}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(125deg,#0c6035,#1c9a58);color:white;padding:25px 18px 32px}
+.header-inner{max-width:1120px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:15px;background:#ffffff24;border:1px solid #ffffff60;display:grid;place-items:center;font-weight:900;font-size:23px}
+h1{font-size:clamp(22px,4vw,32px);margin:0 0 5px}header p{margin:0;color:#e1f5e8;font-size:14px}.tag{border:1px solid #ffffff66;background:#ffffff18;padding:8px 12px;border-radius:999px;font-size:12px;white-space:nowrap}
+main{max-width:1120px;margin:-15px auto 40px;padding:0 15px}
+.intro{background:white;border:1px solid var(--line);border-radius:18px;padding:17px 19px;margin-bottom:17px;box-shadow:0 5px 18px #153b2010}
+.intro strong{color:var(--green-dark)}.intro p{margin:5px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:17px}
+.tab{background:white;border:1px solid var(--line);border-radius:13px;padding:13px 10px;text-align:left;cursor:pointer;color:var(--ink);font-weight:750;display:flex;align-items:center;gap:9px}
+.tab .num{display:grid;place-items:center;width:29px;height:29px;border-radius:9px;background:#edf3ef;color:var(--green-dark);flex-shrink:0}.tab.active{border-color:var(--green);box-shadow:0 0 0 2px #16834a15;background:#f7fff9}.tab.active .num{background:var(--green);color:white}
+.panel{display:none;background:white;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 7px 25px #153b2009}.panel.active{display:block}
+.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:18px}.panel-head h2{margin:0;font-size:22px}.panel-head p{margin:5px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
+.pill{background:var(--mint);color:var(--green-dark);padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}table{border-collapse:collapse;width:100%;min-width:590px}th{background:#f0f7f2;color:#4a6353;text-align:left;font-size:12px;padding:12px 10px}td{padding:8px 9px;border-top:1px solid #edf1ee}td input{width:100%;min-width:75px;border:1px solid #d8e4db;border-radius:8px;padding:10px 9px;font:inherit;font-size:14px;color:var(--ink);outline:none;background:white}td input:focus,.field input:focus{border-color:var(--green);box-shadow:0 0 0 3px #16834a16}td .item-input{min-width:145px}.row-total{font-weight:800;color:var(--green-dark);white-space:nowrap}.remove{border:0;background:#fff0f0;color:#b42318;border-radius:8px;padding:8px 10px;cursor:pointer;font-weight:800}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin:13px 0 18px}.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:800;cursor:pointer;font-size:13px}.btn-primary{background:var(--green);color:white}.btn-primary:hover{background:var(--green-dark)}.btn-light{background:#edf6ef;color:var(--green-dark);border:1px solid #d9ebde}.btn-danger{background:#fff0f0;color:#a32222}
+.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:15px 0 20px}.metric{background:#f7fbf8;border:1px solid var(--line);padding:14px;border-radius:12px;min-width:0}.metric .label{font-size:12px;color:var(--muted);margin-bottom:7px}.metric .value{font-size:clamp(17px,2.5vw,24px);font-weight:850;color:var(--green-dark);overflow-wrap:anywhere}.metric small{display:block;color:var(--muted);font-size:11px;margin-top:5px}
+.section-title{font-size:15px;margin:20px 0 11px}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{border:1px solid var(--line);background:#fcfefc;border-radius:12px;padding:13px}.field label{display:block;font-size:13px;font-weight:750;margin-bottom:8px}.field input{width:100%;padding:11px;border:1px solid #d8e4db;border-radius:9px;font:inherit;outline:none}.field .hint{font-size:11px;color:var(--muted);margin-top:6px}
+.calc-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}.result{border-radius:13px;background:var(--mint);border:1px solid #cfe8d7;padding:15px}.result .result-label{font-size:12px;color:#4b6d56;font-weight:700}.result .result-price{font-size:clamp(21px,3vw,29px);font-weight:900;color:var(--green-dark);margin:7px 0}.result .result-formula{font-size:12px;color:#557361;line-height:1.45}
+.info{padding:12px 14px;background:#fff9e9;border:1px solid #f5e6b8;border-radius:10px;color:#76561b;font-size:12px;line-height:1.5;margin-top:16px}
+.footer{max-width:1120px;margin:0 auto;padding:0 15px 30px;color:var(--muted);font-size:12px;text-align:center}
+@media(max-width:680px){header{padding:20px 15px 29px}.tag{display:none}.tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.tab{font-size:12px;padding:10px 8px}.panel{padding:15px}.panel-head{display:block}.panel-head .pill{display:inline-block;margin-top:10px}.summary{grid-template-columns:1fr 1fr}.summary .metric:last-child{grid-column:1/-1}.fields,.calc-results{grid-template-columns:1fr}.intro{padding:14px}.panel-head h2{font-size:20px}}
+@media(max-width:370px){.summary{grid-template-columns:1fr}.summary .metric:last-child{grid-column:auto}.tab{gap:6px}.tab .num{width:25px;height:25px}}
+</style>
+</head>
+<body>
+<header><div class="header-inner"><div class="brand"><div class="logo">F</div><div><h1>Freelan Pricing Calculator</h1><p>Factory → Freelan → Agency → Shops</p></div></div><span class="tag">GREEN • SIMPLE • MOBILE FRIENDLY</span></div></header>
+<main>
+  <section class="intro"><strong>One pricing flow. Four clear steps.</strong><p>Add factory items and costs, calculate GP and NP, then carry those prices through Freelan, Agency and Shops. Amounts update automatically as you type. This is a calculator only; it does not connect to a database.</p></section>
+  <nav class="tabs" aria-label="Pricing stages">
+    <button class="tab active" data-tab="factory"><span class="num">1</span><span>Nadugala Factory</span></button>
+    <button class="tab" data-tab="freelan"><span class="num">2</span><span>Freelan Factory</span></button>
+    <button class="tab" data-tab="agency"><span class="num">3</span><span>Agency</span></button>
+    <button class="tab" data-tab="shops"><span class="num">4</span><span>Shops</span></button>
+  </nav>
+
+  <section class="panel active" id="factory">
+    <div class="panel-head"><div><h2>1. Nadugala Factory</h2><p>Add as many rows as needed. Enter the item, its base price and the percentage to add.</p></div><span class="pill">Starting cost</span></div>
+    <div class="table-wrap"><table><thead><tr><th style="width:36%">Item / Row</th><th>Base price (Rs.)</th><th>Add %</th><th>Final cost (Rs.)</th><th></th></tr></thead><tbody id="items"></tbody></table></div>
+    <div class="actions"><button class="btn btn-primary" id="addRow">＋ Add row</button><button class="btn btn-light" id="clearRows">Clear rows</button></div>
+    <div class="summary">
+      <div class="metric"><div class="label">Total base price</div><div class="value" id="baseTotal">Rs. 0.00</div></div>
+      <div class="metric"><div class="label">Total added amount</div><div class="value" id="addedTotal">Rs. 0.00</div></div>
+      <div class="metric"><div class="label">Total final cost</div><div class="value" id="factoryTotal">Rs. 0.00</div><small>Sum of all row final costs</small></div>
+    </div>
+    <h3 class="section-title">Calculate Nadugala GP and NP</h3>
+    <div class="fields">
+      <div class="field"><label for="factoryGP">GP add-on (%)</label><input id="factoryGP" type="number" min="0" step="0.01" value="0"><div class="hint">GP price = total final cost + this percentage</div></div>
+      <div class="field"><label for="factoryNP">NP add-on (%)</label><input id="factoryNP" type="number" min="0" step="0.01" value="0"><div class="hint">NP price = total final cost + this percentage</div></div>
+    </div>
+    <div class="calc-results">
+      <div class="result"><div class="result-label">Nadugala GP price</div><div class="result-price" id="factoryGPPrice">Rs. 0.00</div><div class="result-formula" id="factoryGPFormula">Cost + 0% add-on</div></div>
+      <div class="result"><div class="result-label">Nadugala NP price</div><div class="result-price" id="factoryNPPrice">Rs. 0.00</div><div class="result-formula" id="factoryNPFormula">Cost + 0% add-on</div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="freelan">
+    <div class="panel-head"><div><h2>2. Freelan Factory</h2><p>Uses Nadugala's calculated GP and NP prices as the starting prices.</p></div><span class="pill">Nadugala → Freelan</span></div>
+    <div class="summary">
+      <div class="metric"><div class="label">Nadugala GP received</div><div class="value" id="inFreelanGP">Rs. 0.00</div></div>
+      <div class="metric"><div class="label">Nadugala NP received</div><div class="value" id="inFreelanNP">Rs. 0.00</div></div>
+      <div class="metric"><div class="label">Price source</div><div class="value">Auto</div><small>Linked to Step 1</small></div>
+    </div>
+    <h3 class="section-title">Add Freelan percentages</h3>
+    <div class="fields">
+      <div class="field"><label for="freelanGP">Freelan GP add-on (%)</label><input id="freelanGP" type="number" min="0" step="0.01" value="0"><div class="hint">Applied to the incoming Nadugala GP price</div></div>
+      <div class="field"><label for="freelanNP">Freelan NP add-on (%)</label><input id="freelanNP" type="number" min="0" step="0.01" value="0"><div class="hint">Applied to the incoming Nadugala NP price</div></div>
+    </div>
+    <div class="calc-results">
+      <div class="result"><div class="result-label">Final Freelan GP price</div><div class="result-price" id="freelanGPPrice">Rs. 0.00</div><div class="result-formula" id="freelanGPFormula">Incoming GP + 0% add-on</div></div>
+      <div class="result"><div class="result-label">Final Freelan NP price</div><div class="result-price" id="freelanNPPrice">Rs. 0.00</div><div class="result-formula" id="freelanNPFormula">Incoming NP + 0% add-on</div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="agency">
+    <div class="panel-head"><div><h2>3. Agency</h2><p>Freelan's final GP and NP prices flow into this step automatically.</p></div><span class="pill">Freelan → Agency</span></div>
+    <div class="summary">
+      <div class="metric"><div class="label">Freelan GP received</div><div class="value" id="inAgencyGP">Rs. 0.00</div></div>
+      <div class="metric"><div class="label">Freelan NP received</div><div class="value" id="inAgencyNP">Rs. 0.00</div></div>
+      <div class="metric"><div class="label">Price source</div><div class="value">Auto</div><small>Linked to Step 2</small></div>
+    </div>
+    <h3 class="section-title">Add Agency percentages</h3>
+    <div class="fields">
+      <div class="field"><label for="agencyGP">Agency GP add-on (%)</label><input id="agencyGP" type="number" min="0" step="0.01" value="0"><div class="hint">Applied to Freelan GP price</div></div>
+      <div class="field"><label for="agencyNP">Agency NP add-on (%)</label><input id="agencyNP" type="number" min="0" step="0.01" value="0"><div class="hint">Applied to Freelan NP price</div></div>
+    </div>
+    <div class="calc-results">
+      <div class="result"><div class="result-label">Final Agency GP price</div><div class="result-price" id="agencyGPPrice">Rs. 0.00</div><div class="result-formula" id="agencyGPFormula">Incoming GP + 0% add-on</div></div>
+      <div class="result"><div class="result-label">Final Agency NP price</div><div class="result-price" id="agencyNPPrice">Rs. 0.00</div><div class="result-formula" id="agencyNPFormula">Incoming NP + 0% add-on</div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="shops">
+    <div class="panel-head"><div><h2>4. Shops</h2><p>Calculate each shop's own GP and NP prices using the Agency prices as the starting point.</p></div><span class="pill">Agency → Shops</span></div>
+    <div class="summary">
+      <div class="metric"><div class="label">Agency GP received</div><div class="value" id="inShopsGP">Rs. 0.00</div></div>
+      <div class="metric"><div class="label">Agency NP received</div><div class="value" id="inShopsNP">Rs. 0.00</div></div>
+      <div class="metric"><div class="label">Price source</div><div class="value">Auto</div><small>Linked to Step 3</small></div>
+    </div>
+    <h3 class="section-title">Add Shop percentages</h3>
+    <div class="fields">
+      <div class="field"><label for="shopsGP">Shop GP add-on (%)</label><input id="shopsGP" type="number" min="0" step="0.01" value="0"><div class="hint">Applied to Agency GP price</div></div>
+      <div class="field"><label for="shopsNP">Shop NP add-on (%)</label><input id="shopsNP" type="number" min="0" step="0.01" value="0"><div class="hint">Applied to Agency NP price</div></div>
+    </div>
+    <div class="calc-results">
+      <div class="result"><div class="result-label">Final Shop GP price</div><div class="result-price" id="shopsGPPrice">Rs. 0.00</div><div class="result-formula" id="shopsGPFormula">Incoming GP + 0% add-on</div></div>
+      <div class="result"><div class="result-label">Final Shop NP price</div><div class="result-price" id="shopsNPPrice">Rs. 0.00</div><div class="result-formula" id="shopsNPFormula">Incoming NP + 0% add-on</div></div>
+    </div>
+    <div class="actions"><button class="btn btn-primary" onclick="window.print()">Print / Save as PDF</button><button class="btn btn-light" id="resetAll">Reset calculator</button></div>
+    <div class="info">Tip: Use your browser's Print option and choose “Save as PDF” to keep a copy of the calculated prices.</div>
+  </section>
+</main>
+<div class="footer">Freelan Pricing Calculator • All calculations run in your browser • Amounts shown in Sri Lankan Rupees (Rs.)</div>
+<script>
+const $ = id => document.getElementById(id);
+const fmt = n => 'Rs. ' + (Number.isFinite(n) ? n : 0).toLocaleString('en-LK',{minimumFractionDigits:2,maximumFractionDigits:2});
+const num = id => Math.max(0, parseFloat($(id).value) || 0);
+const addPercent = (base, pct) => base * (1 + pct / 100);
+let rowCounter = 0;
+function addRow(name='', price='', pct='0'){
+  rowCounter++;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td><input class="item-input item-name" aria-label="Item name" placeholder="e.g. Product / Row ${rowCounter}" value="${String(name).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}"></td>
+  <td><input class="item-price" aria-label="Base price" type="number" min="0" step="0.01" placeholder="0.00" value="${price}"></td>
+  <td><input class="item-pct" aria-label="Add-on percentage" type="number" min="0" step="0.01" value="${pct}"></td>
+  <td class="row-total">Rs. 0.00</td><td><button class="remove" aria-label="Remove row" title="Remove row">×</button></td>`;
+  tr.querySelectorAll('input').forEach(input => input.addEventListener('input', updateAll));
+  tr.querySelector('.remove').addEventListener('click', () => {tr.remove(); updateAll();});
+  $('items').appendChild(tr); updateAll();
+}
+function updateAll(){
+  let base=0, final=0;
+  document.querySelectorAll('#items tr').forEach(tr=>{
+    const p=Math.max(0,parseFloat(tr.querySelector('.item-price').value)||0);
+    const pct=Math.max(0,parseFloat(tr.querySelector('.item-pct').value)||0);
+    const total=addPercent(p,pct); base+=p; final+=total;
+    tr.querySelector('.row-total').textContent=fmt(total);
+  });
+  $('baseTotal').textContent=fmt(base); $('addedTotal').textContent=fmt(final-base); $('factoryTotal').textContent=fmt(final);
+  const fgp=addPercent(final,num('factoryGP')), fnp=addPercent(final,num('factoryNP'));
+  $('factoryGPPrice').textContent=fmt(fgp); $('factoryNPPrice').textContent=fmt(fnp);
+  $('factoryGPFormula').textContent=`${fmt(final)} + ${num('factoryGP')}% add-on`;
+  $('factoryNPFormula').textContent=`${fmt(final)} + ${num('factoryNP')}% add-on`;
+  const freelanGP = addPercent(fgp,num('freelanGP'));
+  const freelanNP = addPercent(fnp,num('freelanNP'));
+  const agencyGP = addPercent(freelanGP,num('agencyGP'));
+  const agencyNP = addPercent(freelanNP,num('agencyNP'));
+  setStage('freelan',fgp,fnp);
+  setStage('agency',freelanGP,freelanNP);
+  setStage('shops',agencyGP,agencyNP);
+}
+function setStage(stage, priorGP, priorNP){
+  const pctGP = num(`${stage}GP`);
+  const pctNP = num(`${stage}NP`);
+  const gp=addPercent(priorGP,pctGP), np=addPercent(priorNP,pctNP);
+  $(`in${stage[0].toUpperCase()+stage.slice(1)}GP`).textContent=fmt(priorGP);
+  $(`in${stage[0].toUpperCase()+stage.slice(1)}NP`).textContent=fmt(priorNP);
+  $(`${stage}GPPrice`).textContent=fmt(gp); $(`${stage}NPPrice`).textContent=fmt(np);
+  $(`${stage}GPFormula`).textContent=`${fmt(priorGP)} + ${pctGP}% add-on`;
+  $(`${stage}NPFormula`).textContent=`${fmt(priorNP)} + ${pctNP}% add-on`;
+}
+document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===tab));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===tab.dataset.tab));
+}));
+['factoryGP','factoryNP','freelanGP','freelanNP','agencyGP','agencyNP','shopsGP','shopsNP'].forEach(id=>$(id).addEventListener('input',updateAll));
+$('addRow').addEventListener('click',()=>addRow());
+$('clearRows').addEventListener('click',()=>{ $('items').innerHTML=''; updateAll();});
+$('resetAll').addEventListener('click',()=>{
+  if(!confirm('Reset all item rows and percentage inputs?')) return;
+  $('items').innerHTML='';
+  ['factoryGP','factoryNP','freelanGP','freelanNP','agencyGP','agencyNP','shopsGP','shopsNP'].forEach(id=>$(id).value='0');
+  rowCounter=0; addRow(); addRow(); addRow();
+  document.querySelector('.tab[data-tab="factory"]').click();
+});
+addRow(); addRow(); addRow(); updateAll();
+</script>
+</body>
+</html>
