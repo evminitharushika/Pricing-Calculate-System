@@ -2,7 +2,7 @@
   "name": "Pricing Calculate System",
   "short_name": "Pricing System",
   "description": "Calculate GP and NP prices across factory, Freelan, agency and shop stages.",
-  "start_url": "./freelan_pricing_calculator.html",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "theme_color": "#0c6035",

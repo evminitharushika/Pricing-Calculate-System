@@ -4,14 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pricing Calculate System</title>
-<meta name="theme-color" content="#0c6035">
-<meta name="description" content="Calculate GP and NP prices across factory, Freelan, agency and shop stages.">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="pricing_calculator_logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="freelan_pricing_calculator.css">
 </head>
 <body>
-<header><div class="header-inner"><div class="brand"><img class="logo" src="pricing_calculator_logo.svg" alt="Pricing Calculate System logo"><div><h1>Pricing Calculate System</h1><p>Factory → Freelan → Agency → Shops</p></div></div><div class="header-tools"><span class="tag">SMART • SIMPLE • ACCURATE</span><button class="install-button" id="installApp" type="button" hidden>Install App</button><span class="install-status" id="installStatus" role="status" aria-live="polite"></span></div></div></header>
+<header><div class="header-inner"><div class="brand"><img class="logo" src="pricing_calculator_logo.svg" alt="Pricing Calculate System logo"><div><h1>Pricing Calculate System</h1><p>Factory → Freelan → Agency → Shops</p></div></div><span class="tag">SMART • SIMPLE • ACCURATE</span></div></header>
 <main>
   <section class="intro"><strong>One pricing flow. Four clear steps.</strong><p>Add factory items and costs, calculate GP and NP, then carry those prices through Freelan, Agency and Shops. Amounts update automatically as you type. This is a calculator only; it does not connect to a database.</p></section>
   <nav class="tabs" aria-label="Pricing stages">
@@ -99,12 +95,5 @@
 </main>
 <div class="footer">Pricing Calculate System • All calculations run in your browser • Amounts shown in Sri Lankan Rupees (Rs.)</div>
 <script src="freelan_pricing_calculator.js"></script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./service-worker.js', { scope: './' });
-    });
-  }
-</script>
 </body>
 </html>

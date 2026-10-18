@@ -28,7 +28,7 @@ The Freelan Pricing Calculator helps calculate and manage GP (Gross Price) and N
 
 1. Clone or download this repository.
 2. Serve the project through `http://localhost` (for example with VS Code Live Server or `npx serve .`). Opening the HTML directly with `file://` does not enable service workers or PWA installation.
-3. Open `freelan_pricing_calculator.html`.
+3. Open `index.html`.
 4. Enter item prices and percentages in the Nadugala Factory section.
 5. Review the calculated GP and NP prices in each subsequent stage.
 
@@ -44,7 +44,7 @@ Each stage uses the previous stage's final GP and NP prices as its input.
 
 ```text
 freelan-pricing-calculator/
-├── freelan_pricing_calculator.html
+├── index.html
 ├── freelan_pricing_calculator.css
 ├── freelan_pricing_calculator.js
 ├── manifest.webmanifest
