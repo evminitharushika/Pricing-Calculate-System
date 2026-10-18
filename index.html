@@ -4,7 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pricing Calculate System</title>
+<meta name="theme-color" content="#0c6035">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Pricing System">
 <link rel="stylesheet" href="freelan_pricing_calculator.css">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/pricing-calculator-192.png">
 </head>
 <body>
 <header><div class="header-inner"><div class="brand"><img class="logo" src="pricing_calculator_logo.svg" alt="Pricing Calculate System logo"><div><h1>Pricing Calculate System</h1><p>Factory → Freelan → Agency → Shops</p></div></div><div class="header-tools"><span class="tag">SMART • SIMPLE • ACCURATE</span><button class="install-button" id="installApp" type="button" aria-label="Install Pricing Calculate System"><svg class="install-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 18v2h14v-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="install-label">Install App</span></button><span class="install-status" id="installStatus" role="status" aria-live="polite"></span></div></div></header>
@@ -95,5 +102,12 @@
 </main>
 <div class="footer">Pricing Calculate System • All calculations run in your browser • Amounts shown in Sri Lankan Rupees (Rs.)</div>
 <script src="freelan_pricing_calculator.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js', { scope: './' });
+    });
+  }
+</script>
 </body>
 </html>
