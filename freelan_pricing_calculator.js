@@ -66,9 +66,13 @@ const installButton = $('installApp');
 const installStatus = $('installStatus');
 const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
+if (isStandalone) {
+  installButton.hidden = true;
+}
+
 function showInstallInstructions(){
   installButton.hidden = false;
-  installButton.textContent = 'How to install';
+  installButton.querySelector('.install-label').textContent = 'How to install';
   installStatus.textContent = 'Use your browser menu and choose “Add to Home screen” or “Install app”.';
 }
 
@@ -76,7 +80,7 @@ window.addEventListener('beforeinstallprompt', event => {
   event.preventDefault();
   deferredInstallPrompt = event;
   installButton.hidden = false;
-  installButton.textContent = 'Install App';
+  installButton.querySelector('.install-label').textContent = 'Install App';
   installStatus.textContent = '';
 });
 
