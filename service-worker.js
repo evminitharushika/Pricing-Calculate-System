@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pricing-calculate-system-v1';
+const CACHE_NAME = 'pricing-calculate-system-v2';
 const APP_SHELL = [
   './index.html',
   './freelan_pricing_calculator.css',

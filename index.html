@@ -25,22 +25,24 @@
   </nav>
 
   <section class="panel active" id="factory">
-    <div class="panel-head"><div><h2>1. Nadugala Factory</h2><p>Add as many rows as needed. Enter the item, its base price and the percentage to add.</p></div><span class="pill">Starting cost</span></div>
-    <div class="table-wrap"><table><thead><tr><th style="width:36%">Item / Row</th><th>Base price (Rs.)</th><th>Add %</th><th>Final cost (Rs.)</th><th></th></tr></thead><tbody id="items"></tbody></table></div>
+    <div class="panel-head"><div><h2>1. Nadugala Factory</h2><p>Add as many rows as needed. Enter the item, base price, add percentage and PWeight.</p></div><span class="pill">Starting cost</span></div>
+    <div class="table-wrap"><table><thead><tr><th style="width:30%">Item Name</th><th>Base Price (Rs.)</th><th>Add Percentage (%)</th><th>Cost (Rs.)</th><th>PWeight</th></tr></thead><tbody id="items"></tbody></table></div>
     <div class="actions"><button class="btn btn-primary" id="addRow">+ Add row</button><button class="btn btn-light" id="clearRows">Clear rows</button></div>
     <div class="summary">
-      <div class="metric"><div class="label">Total base price</div><div class="value" id="baseTotal">Rs. 0.00</div></div>
-      <div class="metric"><div class="label">Total added amount</div><div class="value" id="addedTotal">Rs. 0.00</div></div>
-      <div class="metric"><div class="label">Total final cost</div><div class="value" id="factoryTotal">Rs. 0.00</div><small>Sum of all row final costs</small></div>
+      <div class="metric"><div class="label">Total Recipes Cost (Rs.)</div><div class="value" id="factoryTotal">Rs. 0.00</div><small>Sum of all calculated Cost values</small></div>
+      <div class="metric"><div class="label">Cost Add Percentage (%)</div><input id="costAddPercentage" type="number" min="0" step="0.01" value="0" aria-label="Cost Add Percentage (%)"><small>Applied once to Total Recipes Cost</small></div>
+      <div class="metric"><div class="label">Cost Add Amount (Rs.)</div><div class="value" id="costAddAmount">Rs. 0.00</div><small>Additional amount from Cost Add Percentage</small></div>
+      <div class="metric"><div class="label">Adjusted Recipes Cost (Rs.)</div><div class="value" id="adjustedRecipesCost">Rs. 0.00</div><small>Total Recipes Cost plus the cost add percentage</small></div>
     </div>
     <h3 class="section-title">Calculate Nadugala GP and NP</h3>
     <div class="fields">
-      <div class="field"><label for="factoryGP">GP add-on (%)</label><input id="factoryGP" type="number" min="0" step="0.01" value="0"><div class="hint">GP price = total final cost + this percentage</div></div>
-      <div class="field"><label for="factoryNP">NP add-on (%)</label><input id="factoryNP" type="number" min="0" step="0.01" value="0"><div class="hint">NP price = total final cost + this percentage</div></div>
+      <div class="field"><label for="factoryGP">GP Percentage (%)</label><input id="factoryGP" type="number" min="0" step="0.01" value="0"><div class="hint">Applied to Adjusted Recipes Cost</div></div>
+      <div class="field"><label for="factoryNP">NP Percentage (%)</label><input id="factoryNP" type="number" min="0" step="0.01" value="0"><div class="hint">Applied to Adjusted Recipes Cost</div></div>
     </div>
     <div class="calc-results">
-      <div class="result"><div class="result-label">Nadugala GP price</div><div class="result-price" id="factoryGPPrice">Rs. 0.00</div><div class="result-formula" id="factoryGPFormula">Cost + 0% add-on</div></div>
-      <div class="result"><div class="result-label">Nadugala NP price</div><div class="result-price" id="factoryNPPrice">Rs. 0.00</div><div class="result-formula" id="factoryNPFormula">Cost + 0% add-on</div></div>
+      <div class="result"><div class="result-label">GP Amount (Rs.)</div><div class="result-price" id="factoryGPAmount">Rs. 0.00</div><div class="result-formula" id="factoryGPAmountFormula">Adjusted cost × 0%</div></div>
+      <div class="result"><div class="result-label">NP Amount (Rs.)</div><div class="result-price" id="factoryNPAmount">Rs. 0.00</div><div class="result-formula" id="factoryNPAmountFormula">Adjusted cost × 0%</div></div>
+      <div class="result result-mark-price"><div class="result-label">Mark Price (Rs.)</div><div class="result-price" id="factoryGPPrice">Rs. 0.00</div><div class="result-formula" id="factoryGPFormula">Adjusted cost + GP amount</div></div>
     </div>
   </section>
 
