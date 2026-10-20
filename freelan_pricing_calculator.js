@@ -1,5 +1,6 @@
 const $ = id => document.getElementById(id);
 const fmt = n => 'Rs. ' + (Number.isFinite(n) ? n : 0).toLocaleString('en-LK',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtRate = n => 'Rs. ' + (Number.isFinite(n) ? n : 0).toLocaleString('en-LK',{minimumFractionDigits:3,maximumFractionDigits:3});
 const readNumber = input => {
   const value = input.value.trim();
   const number = value === '' ? 0 : Number(value);
@@ -11,6 +12,14 @@ const readNumber = input => {
 };
 const num = id => readNumber($(id));
 const addAmount = (base, pct) => base * pct / 100;
+const positiveNumber = input => {
+  const number = readNumber(input);
+  const valid = input.value.trim() !== '' && number > 0 && !input.classList.contains('input-invalid');
+  input.classList.toggle('input-invalid', !valid);
+  input.setAttribute('aria-invalid', String(!valid));
+  input.title = valid ? '' : 'Enter a packet weight greater than zero.';
+  return valid ? number : 0;
+};
 let rowCounter = 0;
 let deferredInstallPrompt = null;
 function addRow(name='', price='', pct='0', pweight=''){
@@ -53,11 +62,19 @@ function updateAll(){
   $('factoryNPAmountFormula').textContent=`${fmt(adjustedRecipesCost)} × ${factoryNPPct}%`;
   $('factoryGPPrice').textContent=fmt(fgp);
   $('factoryGPFormula').textContent=`${fmt(adjustedRecipesCost)} + ${fmt(gpAmount)}`;
-  const freelanGP = applyStagePercentage(fgp,num('freelanGP'));
-  const freelanNP = applyStagePercentage(fnp,num('freelanNP'));
+  $('freelanPurchasePrice').value=fmt(fgp);
+  const packetWeight=positiveNumber($('freelanPacketWeight'));
+  const additionalPct=num('freelanAdditionalPercentage');
+  const yValue=packetWeight > 0 ? fgp / packetWeight : 0;
+  const xValue=addAmount(fgp,additionalPct);
+  const retailPrice=xValue+yValue;
+  $('teaPacketCost').textContent=fmtRate(yValue);
+  $('teaPacketAdditionalAmount').textContent=fmtRate(xValue);
+  $('freelanRetailPrice').textContent=fmt(retailPrice);
+  const freelanGP = fgp;
+  const freelanNP = fnp;
   const agencyGP = applyStagePercentage(freelanGP,num('agencyGP'));
   const agencyNP = applyStagePercentage(freelanNP,num('agencyNP'));
-  setStage('freelan',fgp,fnp);
   setStage('agency',freelanGP,freelanNP);
   setStage('shops',agencyGP,agencyNP);
 }
@@ -78,13 +95,14 @@ document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===tab));
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===tab.dataset.tab));
 }));
-['costAddPercentage','factoryGP','factoryNP','freelanGP','freelanNP','agencyGP','agencyNP','shopsGP','shopsNP'].forEach(id=>$(id).addEventListener('input',updateAll));
+['costAddPercentage','factoryGP','factoryNP','freelanPacketWeight','freelanAdditionalPercentage','agencyGP','agencyNP','shopsGP','shopsNP'].forEach(id=>$(id).addEventListener('input',updateAll));
 $('addRow').addEventListener('click',()=>addRow());
 $('clearRows').addEventListener('click',()=>{ $('items').innerHTML=''; updateAll();});
 $('resetAll').addEventListener('click',()=>{
   if(!confirm('Reset all item rows and percentage inputs?')) return;
   $('items').innerHTML='';
-  ['costAddPercentage','factoryGP','factoryNP','freelanGP','freelanNP','agencyGP','agencyNP','shopsGP','shopsNP'].forEach(id=>$(id).value='0');
+  ['costAddPercentage','factoryGP','factoryNP','freelanAdditionalPercentage','agencyGP','agencyNP','shopsGP','shopsNP'].forEach(id=>$(id).value='0');
+  $('freelanPacketWeight').value='';
   rowCounter=0; addRow(); addRow(); addRow();
   document.querySelector('.tab[data-tab="factory"]').click();
 });

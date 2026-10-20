@@ -10,6 +10,7 @@ The Freelan Pricing Calculator helps calculate and manage GP (Gross Price) and N
 
 - **Nadugala Factory** – Add multiple items, enter base prices, item percentages and PWeights, calculate percentage Cost amounts, Total Recipes Cost, Cost Add Amount, Adjusted Recipes Cost, GP/NP amounts, and final prices.
 - **Freelan Factory** – Calculate final GP and NP prices using the prices received from Nadugala Factory.
+- **Freelan tea packet pricing** – Receive Nadugala's Mark Price as Purchase Price, calculate Tea Packet Cost per gram, apply an additional percentage, and calculate Retail Price.
 - **Agency** – Calculate Agency GP and NP prices using Freelan's final prices.
 - **Shops** – Calculate shop GP and NP prices using Agency's final prices.
 - **Automatic Calculations** – Update prices whenever input values change.
@@ -45,6 +46,12 @@ Adjusted Recipes Cost = Total Recipes Cost + Cost Add Amount
 GP/NP Amount = Adjusted Recipes Cost × Percentage / 100
 
 Final Price = Adjusted Recipes Cost + GP/NP Amount
+
+Y Value = Purchase Price / Packet Weight
+
+X Value = Purchase Price × Additional Percentage / 100
+
+Retail Price = X Value + Y Value
 
 Each downstream stage uses the previous stage's final GP and NP prices as its input. PWeight is recorded per item but does not affect the cost totals.
 

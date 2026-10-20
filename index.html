@@ -47,20 +47,26 @@
   </section>
 
   <section class="panel" id="freelan">
-    <div class="panel-head"><div><h2>2. Freelan Factory</h2><p>Uses Nadugala's calculated GP and NP prices as the starting prices.</p></div><span class="pill">Nadugala → Freelan</span></div>
+    <div class="panel-head"><div><h2>2. Freelan Factory</h2><p>Uses Nadugala's Mark Price as the automatic Purchase Price for packet-cost and retail calculations.</p></div><span class="pill">Nadugala → Freelan</span></div>
     <div class="summary">
       <div class="metric"><div class="label">Nadugala GP received</div><div class="value" id="inFreelanGP">Rs. 0.00</div></div>
       <div class="metric"><div class="label">Nadugala NP received</div><div class="value" id="inFreelanNP">Rs. 0.00</div></div>
       <div class="metric"><div class="label">Price source</div><div class="value">Auto</div><small>Linked to Step 1</small></div>
     </div>
-    <h3 class="section-title">Add Freelan percentages</h3>
+    <h3 class="section-title">Tea Packet Pricing</h3>
     <div class="fields">
-      <div class="field"><label for="freelanGP">Freelan GP add-on (%)</label><input id="freelanGP" type="number" min="0" step="0.01" value="0"><div class="hint">Applied to the incoming Nadugala GP price</div></div>
-      <div class="field"><label for="freelanNP">Freelan NP add-on (%)</label><input id="freelanNP" type="number" min="0" step="0.01" value="0"><div class="hint">Applied to the incoming Nadugala NP price</div></div>
+      <div class="field"><label for="freelanPurchasePrice">Purchase Price (Rs.)</label><input id="freelanPurchasePrice" type="text" value="Rs. 0.00" readonly aria-readonly="true"><div class="hint">Automatically received from Nadugala Mark Price</div></div>
+      <div class="field"><label for="freelanPacketWeight">Packet Weight (g)</label><input id="freelanPacketWeight" type="number" min="0.01" step="0.01" placeholder="100"><div class="hint">Must be greater than zero</div></div>
     </div>
     <div class="calc-results">
-      <div class="result"><div class="result-label">Final Freelan GP price</div><div class="result-price" id="freelanGPPrice">Rs. 0.00</div><div class="result-formula" id="freelanGPFormula">Incoming GP + 0% add-on</div></div>
-      <div class="result"><div class="result-label">Final Freelan NP price</div><div class="result-price" id="freelanNPPrice">Rs. 0.00</div><div class="result-formula" id="freelanNPFormula">Incoming NP + 0% add-on</div></div>
+      <div class="result"><div class="result-label">Y Value: Purchase Price / Packet Weight</div><div class="result-price" id="teaPacketCost">Rs. 0.00</div><div class="result-formula">Rs. per gram</div></div>
+    </div>
+    <div class="fields">
+      <div class="field"><label for="freelanAdditionalPercentage">Additional Percentage (%)</label><input id="freelanAdditionalPercentage" type="number" min="0" step="0.01" value="0"><div class="hint">Applied to Tea Packet Cost</div></div>
+    </div>
+    <div class="calc-results">
+      <div class="result"><div class="result-label">X Value: Purchase Price × Additional Percentage</div><div class="result-price" id="teaPacketAdditionalAmount">Rs. 0.00</div><div class="result-formula">Purchase Price × Additional Percentage / 100</div></div>
+      <div class="result result-retail-price"><div class="result-label">Retail Price (Rs.)</div><div class="result-price" id="freelanRetailPrice">Rs. 0.00</div><div class="result-formula">X Value + Y Value</div></div>
     </div>
   </section>
 
